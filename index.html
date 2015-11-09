@@ -11,43 +11,45 @@
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular.min.js"></script>
-		
+		<script src="//www.parsecdn.com/js/parse-1.6.0.min.js"></script>
+		<script type="text/javascript" src="raty-2.7.0/vendor/jquery.js"></script>
+		<script type="text/javascript" src="raty-2.7.0/lib/jquery.raty.js"></script>
+        <link rel="stylesheet" href="raty-2.7.0/lib/jquery.raty.css">
+        
 		<!-- Read scripts -->
 		<link rel="icon" href="img/spotify-icon.png">
 	    <title>Spotify Template</title>
 		<script src="app.js"></script>
-		<link href="app.css" type="text/css" rel="stylesheet"/>	
+		<link href="app.css" type="text/css" rel="stylesheet"/>
 		
 	</head>
 	<body>
 		<nav>
 	        <div class="container">
 	        <!-- Header for mobile -->
-	            <ul>
-		            <li><img src="img/spotify-icon.png" style="width:142px;height:142px;"></li>
-		            <li><a href="#music">Find Music</a></li>
-		            <div class="row" id="login">
-			            <form id="name" class="form-horizontal col-sm-6 col-md-6" role="form">
-							<label>Name:</label>
-							<input class="form-control ui-autocomplete-input" autocomplete="off" name="name" placeholder="Enter your name.." ng-model="full-name"></input>
-						</form>
-						<form id="email" class="form-horizontal col-sm-6 col-md-6" role="form">
-							<label>Email:</label>
-							<input class="form-control ui-autocomplete-input" autocomplete="off" name="email" placeholder="Enter your email address.." ng-model="address"></input>
-						</form>
-						<form class="form-horizontal col-sm-6 col-md-6">
-							<button ng-disabled="" class="btn btn-primary" ng-click="" type="button">Login</button>
-						</form>
-					</div>
-	            </ul>
+		        <img src="img/spotify-icon.png" style="width:142px;height:142px;">
+		        <span><h2>A place where the music finds you ;)</h2></span>
+		        <div class="row" id="login">
+			        <form id="name" class="form-horizontal col-sm-6 col-md-6" role="form">
+						<label>Name:</label>
+						<input class="form-control ui-autocomplete-input" autocomplete="off" placeholder="Enter your name.."></input>
+					</form>
+					<form id="email" class="form-horizontal col-sm-6 col-md-6" role="form">
+						<label>Email:</label>
+						<input class="form-control ui-autocomplete-input" autocomplete="off" placeholder="Enter your email address.."></input>
+					</form>
+					<form class="form-horizontal col-sm-6 col-md-6">
+						<button ng-disabled="" class="btn btn-primary" ng-click="" type="button">Login</button>
+					</form>
+				</div>
 	            <!-- Screen navigation elements -->
 	        </div>
 	    </nav>
 
 		<!-- Initiate app -->
-		<div ng-app="myApp" ng-controller="myCtrl">
+		<div class="container-fixed" ng-app="myApp" ng-controller="myCtrl">
 			<!-- Form -->
-			<form class="container" name="songForm">
+			<form class="" id="search" name="songForm">
 				<div class="form-group">
 					<label>Spotify search:</label>
 					<input name="search" placeholder="Enter your search.." ng-model="track" class="form-control"></input>
@@ -58,12 +60,36 @@
 			</form>
 			
 			<!-- Results -->
-			<div class="container-fixed">
-				<p ng-show="tracks.length>0" class="help-block">Click to sample</p>
-				<ul>
-					<li ng-repeat="track in tracks" class="" ng-click="play(track.preview_url)" title="{{track.name}}">{{track.name + ', by ' + track.artists[0].name}}</li>
-				</ul>
+			<div class="form-horizontal col-sm-6 col-md-6" id="left">
+				<nav id="results-left">
+					<div id="tabs">
+						<h3><a href="#results">results</a></h3>
+					</div>
+					<p ng-show="tracks.length>0" class="help-block">Click image to enlarge all images and sample selected song</p>
+					<ul>
+						<li ng-repeat="track in tracks" class="" >
+						<!-- takes the first element in the images array -->
+							<img id="change" ng-src="{{track.album.images[imgNumber].url}}" ng-click="play(track.preview_url)" title="{{track.name}}"> {{track.name + ', by ' + track.artists[0].name}} 
+							<button class="btn btn-primary" id="create" type="submit">+</button>
+							<h3>{{'Popularity: ' + track.popularity}}</h3>
+
+						</li>
+					</ul>
+				</nav>
 			</div>
+			<form>
+				<div class="form-horizontal col-sm-6 col-md-6" id="right">
+					<nav id="results-right">
+						<button class="btn btn-primary" type="submit">Add song to playlist by clicking: "+" next to song name</button>
+						<h3>Playlist</h3>
+						<div id="ratings"></div>
+				        <div id="playlist" title="{{track.name}}">
+				            <ol>
+				            </ol>
+				        </div>
+					</nav>
+				</div>
+			</form>
 		</div>
 	</body>
 </html>
