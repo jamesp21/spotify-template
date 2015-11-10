@@ -15,6 +15,8 @@
 		<script type="text/javascript" src="raty-2.7.0/vendor/jquery.js"></script>
 		<script type="text/javascript" src="raty-2.7.0/lib/jquery.raty.js"></script>
         <link rel="stylesheet" href="raty-2.7.0/lib/jquery.raty.css">
+  		<script type="text/javascript" src="ngraty.js"></script>
+
         
 		<!-- Read scripts -->
 		<link rel="icon" href="img/spotify-icon.png">
@@ -27,21 +29,14 @@
 		<nav>
 	        <div class="container">
 	        <!-- Header for mobile -->
-		        <img src="img/spotify-icon.png" style="width:142px;height:142px;">
+		        <img id="plane" src="img/spotify-icon.png" style="width:142px;height:142px;"/>
+		        <img src="img/spotify-icon.png" style="width:142px;height:142px;"/>
+		        <img src="img/spotify-icon.png" style="width:142px;height:142px;"/>
+		        <img src="img/spotify-icon.png" style="width:142px;height:142px;"/>
+		        <img src="img/spotify-icon.png" style="width:142px;height:142px;"/>
+		        <img id="plane2" src="img/spotify-icon.png" style="width:142px;height:142px;"/>
 		        <span><h2>A place where the music finds you ;)</h2></span>
-		        <div class="row" id="login">
-			        <form id="name" class="form-horizontal col-sm-6 col-md-6" role="form">
-						<label>Name:</label>
-						<input class="form-control ui-autocomplete-input" autocomplete="off" placeholder="Enter your name.."></input>
-					</form>
-					<form id="email" class="form-horizontal col-sm-6 col-md-6" role="form">
-						<label>Email:</label>
-						<input class="form-control ui-autocomplete-input" autocomplete="off" placeholder="Enter your email address.."></input>
-					</form>
-					<form class="form-horizontal col-sm-6 col-md-6">
-						<button ng-disabled="" class="btn btn-primary" ng-click="" type="button">Login</button>
-					</form>
-				</div>
+		        
 	            <!-- Screen navigation elements -->
 	        </div>
 	    </nav>
@@ -51,7 +46,7 @@
 			<!-- Form -->
 			<form class="" id="search" name="songForm">
 				<div class="form-group">
-					<label>Spotify search:</label>
+					<h3>Spotify search:</h3>
 					<input name="search" placeholder="Enter your search.." ng-model="track" class="form-control"></input>
 				</div>
 				<div class="form-group">
@@ -63,15 +58,19 @@
 			<div class="form-horizontal col-sm-6 col-md-6" id="left">
 				<nav id="results-left">
 					<div id="tabs">
-						<h3><a href="#results">results</a></h3>
+						<h3>Results</h3>
 					</div>
-					<p ng-show="tracks.length>0" class="help-block">Click image to enlarge all images and sample selected song</p>
+					<p ng-show="tracks.length>0" class="help-block">Click image to sample song</p>
+					<h4>Add song to playlist by clicking: "+" button</h4>
 					<ul>
 						<li ng-repeat="track in tracks" class="" >
 						<!-- takes the first element in the images array -->
-							<img id="change" ng-src="{{track.album.images[imgNumber].url}}" ng-click="play(track.preview_url)" title="{{track.name}}"> {{track.name + ', by ' + track.artists[0].name}} 
-							<button class="btn btn-primary" id="create" type="submit">+</button>
+							<img ng-show="currentSong == track.preview_url" id="change" ng-src="{{track.album.images[1].url}}" ng-click="play(track.preview_url)" title="{{track.name}}"> 
+							<img ng-show="currentSong != track.preview_url" id="change" ng-src="{{track.album.images[2].url}}" ng-click="play(track.preview_url)" title="{{track.name}}">
+							{{track.name + ', by ' + track.artists[0].name}}
+							<div ng-raty="ratyOptions" ng-model="track.stars"></div> 
 							<h3>{{'Popularity: ' + track.popularity}}</h3>
+							<button class="btn btn-primary" id="create" type="submit" ng-click="addSong(track)">+</button>
 
 						</li>
 					</ul>
@@ -80,13 +79,17 @@
 			<form>
 				<div class="form-horizontal col-sm-6 col-md-6" id="right">
 					<nav id="results-right">
-						<button class="btn btn-primary" type="submit">Add song to playlist by clicking: "+" next to song name</button>
-						<h3>Playlist</h3>
-						<div id="ratings"></div>
+						<h3>Create your own playlist</h3>
+						<h4>Remove song from playlist by clicking: "x" button</h4>
+						<li ng-repeat="track in playlist" class="">
 				        <div id="playlist" title="{{track.name}}">
-				            <ol>
-				            </ol>
+				        <img ng-show="currentSong == track.preview_url" id="change" ng-src="{{track.album.images[1].url}}" ng-click="play(track.preview_url)" title="{{track.name}}"> 
+							<img ng-show="currentSong != track.preview_url" id="change" ng-src="{{track.album.images[2].url}}" ng-click="play(track.preview_url)" title="{{track.name}}">
+							<div ng-raty="ratyOptions" ng-model="track.stars"></div> 
+							<h3>{{'Popularity: ' + track.popularity}}</h3>
+							<button ng-click="removeSong(track)" class ="btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></button>
 				        </div>
+				        </li>
 					</nav>
 				</div>
 			</form>
