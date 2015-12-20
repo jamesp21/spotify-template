@@ -32,6 +32,8 @@ label {
 .container {
 	margin-left: 0px;
 	margin-right: 0px;
+	padding-left:150px;
+	padding-right: 0px;
 	
 }
 div li #tabs {
@@ -62,6 +64,14 @@ nav li a:hover {
 	text-decoration: none;
 }
 
-#plane { position: absolute; left: -1000px }
+#plane { 
+	position: absolute; left: -1000px 
+}
 
-#plane2 { position: absolute; right: -1000px }
+#plane2 { 
+	position: absolute; right: -1000px 
+}
+
+h2, #phrase {
+	color: lightgreen;
+}
